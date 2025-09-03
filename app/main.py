@@ -63,3 +63,9 @@ def fetch_transactions(user_id: int = Path(..., ge=1), db: Session = Depends(get
         raise HTTPException(status_code=404, detail="User not found")
     txns = db.query(WalletTransaction).filter(WalletTransaction.user_id == user_id).order_by(WalletTransaction.created_at.desc()).all()
     return txns
+
+
+if __name__ == "__main__":
+    import uvicorn, os
+    port = int(os.environ.get("PORT", 10000))  # Render expects PORT env variable
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=False)
